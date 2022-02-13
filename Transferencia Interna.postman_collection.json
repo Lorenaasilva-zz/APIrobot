@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "469424d8-4ab3-465e-97b6-b81aed6d566b",
+		"name": "Transferencia Interna",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Realizar transferência interna",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-stone-idempotency-key",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 5000,\r\n    \"account_id\":\"bccd3bf7-3369-4622-b769-71f93d66da87\",\r\n    \"target\":{\r\n        \"account\":{\r\n            \"account_code\":\"475384\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sandbox-ur}}/api/v1/dry_run/internal_transfers",
+					"host": [
+						"{{sandbox-ur}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dry_run",
+						"internal_transfers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token Válido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const resposta = pm.response.json();\r",
+							"pm.globals.set(\"access_token\", resposta.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "admin-cli",
+							"type": "default"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "default"
+						},
+						{
+							"key": "username",
+							"value": "desafioqastone@gmail.com",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "desafioqa",
+							"type": "default"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://login.sandbox.stone.com.br/auth/realms/stone_account/protocol/openid-connect/token",
+					"protocol": "https",
+					"host": [
+						"login",
+						"sandbox",
+						"stone",
+						"com",
+						"br"
+					],
+					"path": [
+						"auth",
+						"realms",
+						"stone_account",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
